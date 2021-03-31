@@ -10,6 +10,7 @@
   ```
 
 - ### How to run
+  - #### Project run with postgre database
   - #### `npm install`: install package
   - #### `sequelize db:migrate`: mirgrate database
   - #### `sequelize db:seed:all`: fake database
