@@ -1,6 +1,6 @@
 # instaclone-be
 
-- ### Please add environment in file `.env` like format:
+- ### Please add environment in file `.env` format like:
 
   ```
   DEV_DATABASE_URL={url database postgre}
