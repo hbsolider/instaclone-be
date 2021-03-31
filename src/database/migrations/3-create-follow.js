@@ -1,22 +1,27 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Likes', {
-      userId: {
-        type: Sequelize.UUID,
+    await queryInterface.createTable('Follows', {
+      id: {
         primaryKey: true,
+        type: Sequelize.UUID,
         allowNull: false,
+        defaultValue: Sequelize.UUIDV4,
+        autoIncrement: false,
+      },
+      follower: {
+        allowNull: false,
+        type: Sequelize.UUID,
         references: {
           model: 'Users',
           key: 'id',
         },
       },
-      photoId: {
-        type: Sequelize.UUID,
-        primaryKey: true,
+      following: {
         allowNull: false,
+        type: Sequelize.UUID,
         references: {
-          model: 'Photos',
+          model: 'Users',
           key: 'id',
         },
       },
@@ -31,6 +36,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Likes');
+    await queryInterface.dropTable('Follows');
   },
 };

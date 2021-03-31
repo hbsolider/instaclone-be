@@ -4,6 +4,6 @@
     "baseUrl": "./src",
     "module": "commonjs"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "test"],
   "exclude": ["node_modules", "docs"]
 }

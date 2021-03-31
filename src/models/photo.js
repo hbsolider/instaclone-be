@@ -8,7 +8,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Like, {
+        as: 'likes',
+        foreignKey: 'photoId',
+      });
+      this.belongsTo(models.User,{
+        foreignKey: 'userId',
+        as:'owner'
+      });
+      this.hasMany(models.Comment, {
+        as: 'comments',
+        foreignKey: 'photoId',
+      });
     }
   }
   Photo.init(
@@ -22,7 +33,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       caption: DataTypes.STRING,
       image: DataTypes.STRING,
-      userId: DataTypes.STRING,
+      userId: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'User',
+          key: 'id',
+        },
+      },
     },
     {
       sequelize,

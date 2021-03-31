@@ -2,27 +2,31 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Comments', {
-      id: {
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        autoIncrement: false,
-      },
       comment: {
         allowNull: false,
         type: Sequelize.STRING,
       },
       photoId: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.UUID,
+        references: {
+          model: 'Photos',
+          key: 'id',
+        },
       },
       userId: {
-        allowNull: false,
         type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.DATE,
       },
       updatedAt: {

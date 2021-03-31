@@ -1,10 +1,12 @@
 import httpStatus from 'http-status';
 import ApiError from 'utils/ApiError';
 
-export const errorHandler = (err, req, res) => {
+export const errorHandler = (err, req, res, next) => {
   const { statusCode, message } = err;
 
-  res.locals.errorMessage = err.message;
+  if (res.locals) {
+    res.locals.errorMessage = err.message;
+  }
 
   const response = {
     statusCode: statusCode ?? httpStatus.INTERNAL_SERVER_ERROR,

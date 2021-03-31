@@ -1,6 +1,7 @@
 import httpStatus from 'http-status';
-import { Photo } from 'models';
+import { Photo, Like, Comment, User } from 'models';
 import ApiError from 'utils/ApiError';
+import { Sequelize } from 'sequelize';
 
 const photoService = {};
 
@@ -53,4 +54,55 @@ photoService.getAllByUserId = async ({ userId }) => {
     },
   });
 };
+
+photoService.getNewFeed = async ({ offset = 0 }) => {
+  const page = {
+    limit: 5,
+    offset: offset * 5,
+  };
+  return await Photo.findAndCountAll({
+    ...page,
+    order: [['updatedAt', 'DESC']],
+    include: [
+      {
+        model: Like,
+        as: 'likes',
+        attributes: ['userId', 'photoId', 'updatedAt'],
+      },
+      {
+        model: User,
+        as: 'owner',
+      },
+      {
+        model: Comment,
+        as: 'comments',
+      },
+    ],
+  });
+};
+
+photoService.getOneById = async (id) => {
+  return await Photo.findOne({
+    where: {
+      id,
+    },
+    include: [
+      {
+        model: User,
+        as: 'owner',
+      },
+      {
+        model: Comment,
+        as: 'comments',
+        include: [
+          {
+            model: User,
+            as: 'userComment',
+          },
+        ],
+      },
+    ],
+  });
+};
+
 export default photoService;

@@ -21,4 +21,27 @@ userController.login = catchAsync(async (req, res) => {
   });
 });
 
+userController.profile = catchAsync(async (req, res, next) => {
+  const params = req.params;
+  if (!!params.id) {
+    const result = await userService.profileByUsername(params.id, req.user.id);
+    return res.send(result);
+  }
+  const result = await userService.profile(req.user?.id);
+  res.send(result);
+});
+
+userController.addComment = catchAsync(async (req, res, next) => {
+  const { id } = req.user;
+  const { comment, photoId } = req.body;
+  const Comment = await userService.comment({ userId: id, comment, photoId });
+  res.send(Comment);
+});
+
+userController.follow = catchAsync(async (req, res, next) => {
+  const { id } = req.user;
+  const { userId } = req.body;
+  const result = await userService.follow({ follower: id, following: userId });
+  res.send(result);
+});
 export default userController;

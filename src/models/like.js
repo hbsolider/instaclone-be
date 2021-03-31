@@ -8,20 +8,32 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.Photo, {
+        as: 'photoInfo',
+        foreignKey: 'photoId',
+      });
     }
   }
   Like.init(
     {
-      id: {
-        allowNull: false,
-        primaryKey: true,
+      userId: {
         type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        autoIncrement: false,
+        primaryKey: true,
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id',
+        },
       },
-      userId: DataTypes.UUID,
-      photoId: DataTypes.UUID,
+      photoId: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        allowNull: false,
+        references: {
+          model: 'Photo',
+          key: 'id',
+        },
+      },
     },
     {
       sequelize,

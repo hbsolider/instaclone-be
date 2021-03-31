@@ -12,7 +12,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Photo, {
+        as: 'photos',
+        foreignKey: 'userId',
+      });
+      this.hasMany(models.Follow,{
+        foreignKey:'follower',
+        as:'followings'
+      })
+      this.hasMany(models.Follow,{
+        foreignKey:'following',
+        as:'followers'
+      })
     }
   }
   User.init(
@@ -35,7 +46,12 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'User',
     }
   );
-
+  // User.addHook('beforeFind', (users, option) => {
+  //   if (!users.attributes) {
+  //     users.attributes = {};
+  //     users.attributes.exclude = ['password', 'created_at', 'updated_at'];
+  //   }
+  // });
   User.addHook('beforeSave', async (user) => {
     if (user.changed('password')) {
       const salt = bycrypt.genSaltSync(11);
