@@ -21,9 +21,9 @@ userService.register = async ({ username, password, fullname, email }) => {
   });
   if (user) {
     if (user.compareEmail(email)) {
-      throw new ApiError(http.CONFLICT, 'Email is exist');
+      throw new ApiError(http.BAD_REQUEST, 'Email is exist');
     } else {
-      throw new ApiError(http.CONFLICT, 'Username is exist');
+      throw new ApiError(http.BAD_REQUEST, 'Username is exist');
     }
   }
   return await User.create({

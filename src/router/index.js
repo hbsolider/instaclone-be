@@ -4,12 +4,8 @@ import photoRoute from './photo.route';
 import commentRoute from './comment.route';
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.send('test');
-});
-
-router.use('/user', userRoute);
 router.use('/photo', photoRoute);
 router.use('/comment', commentRoute);
+router.use('/user', userRoute);
 
 export default router;

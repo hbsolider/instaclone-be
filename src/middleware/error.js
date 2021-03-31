@@ -13,7 +13,7 @@ export const errorHandler = (err, req, res, next) => {
     message: message ?? httpStatus[httpStatus.INTERNAL_SERVER_ERROR],
   };
 
-  return res.status(statusCode).json(response);
+  return res(response?.statusCode || 400).json(response);
 };
 
 export const errorConverter = (err, req, res, next) => {
@@ -28,7 +28,8 @@ export const errorConverter = (err, req, res, next) => {
 };
 
 export const notFoundHandler = (req, res, next) => {
-  const err = new ApiError(httpStatus.NOT_FOUND, 'Not found');
-
-  return errorHandler(err, req, res);
+  return res.json({
+    message: 'Not found',
+    statusCode: 404,
+  });
 };

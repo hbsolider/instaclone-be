@@ -5,4 +5,3 @@ app.listen(process.env.PORT, () => {
   console.log(`App listen post ${process.env.PORT}`);
 });
 
-export default app
